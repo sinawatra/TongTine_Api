@@ -1,7 +1,7 @@
 package wing.tongtin.demo.entity;
 
 
-import com.etontine.enumeration.GroupStatus;
+import wing.tongtin.demo.enumeration.GroupStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

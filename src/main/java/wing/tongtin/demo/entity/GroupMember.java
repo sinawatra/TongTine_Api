@@ -16,7 +16,7 @@ public class GroupMember {
     private String id;
 
     @ManyToOne
-    private User user;
+    private UserEntity user;
 
     @ManyToOne
     private TontineGroup group;

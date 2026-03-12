@@ -1,6 +1,6 @@
 package wing.tongtin.demo.entity;
 
-import com.etontine.enumeration.PaymentStatus;
+import wing.tongtin.demo.enumeration.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,14 +12,13 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Contribution {
-
+public class ContributionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @ManyToOne
-    private User user;
+    private UserEntity user;
 
     @ManyToOne
     private TontineGroup group;
