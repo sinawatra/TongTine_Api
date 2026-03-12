@@ -21,9 +21,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleException(Exception ex) {
+        ex.printStackTrace(); // Log for debugging
         ApiResponse<?> response = ApiResponse.builder()
                 .success(false)
-                .message("An unexpected error occurred")
+                .message(ex.getMessage()) // Show actual error during development
                 .data(null)
                 .build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);

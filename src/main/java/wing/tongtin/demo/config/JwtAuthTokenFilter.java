@@ -5,17 +5,19 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import wing.tongtin.demo.util.JwtUtils;
 
 import java.io.IOException;
+import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -26,11 +28,14 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
             String token = header.substring(7);
             if (jwtUtils.validateJwtToken(token)) {
                 String userId = jwtUtils.getUserIdFromJwtToken(token);
-                // You can set user info in securityContext if needed
+
+                // Set authentication in SecurityContext
+                UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userId, null, Collections.emptyList());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
 
-        // Always continue the filter chain
         filterChain.doFilter(request, response);
     }
 }

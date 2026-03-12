@@ -27,3 +27,5 @@ public class UserEntity {
 
     private Boolean kycVerified;
 }
+
+
