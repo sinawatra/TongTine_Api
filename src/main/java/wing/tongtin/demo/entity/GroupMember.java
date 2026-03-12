@@ -1,30 +1,25 @@
 package wing.tongtin.demo.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class GroupMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String fullName;
+    @ManyToOne
+    private User user;
 
-    @Column(unique = true)
-    private String phone;
+    @ManyToOne
+    private TontineGroup group;
 
-    private String email;
-
-    private String password;
-
-    private Boolean kycVerified;
+    private Integer payoutOrder;
 }
