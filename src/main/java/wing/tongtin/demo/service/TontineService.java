@@ -1,6 +1,6 @@
 package wing.tongtin.demo.service;
 
-import wing.tongtin.demo.entity.TontineGroup;
+import wing.tongtin.demo.entity.TontineGroupEntity;
 import wing.tongtin.demo.enumeration.GroupStatus;
 import wing.tongtin.demo.repository.TontineGroupRepository;
 import wing.tongtin.demo.request.CreateGroupRequest;
@@ -15,9 +15,9 @@ public class TontineService {
 
     private final TontineGroupRepository groupRepository;
 
-    public TontineGroup createGroup(CreateGroupRequest request) {
+    public TontineGroupEntity createGroup(CreateGroupRequest request) {
 
-        TontineGroup group = TontineGroup.builder()
+        TontineGroupEntity group = TontineGroupEntity.builder()
                 .groupName(request.getGroupName())
                 .contributionAmount(request.getContributionAmount())
                 .totalMembers(request.getTotalMembers())
@@ -28,8 +28,13 @@ public class TontineService {
     }
 
 
-    public List<TontineGroup> getAllGroupListing() {
+    public List<TontineGroupEntity> getAllGroupListing() {
         return groupRepository.findAll();
+    }
+
+    public TontineGroupEntity getGroupInFoById(String id) {
+        return groupRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Group not found with id: " + id));
     }
 
 }

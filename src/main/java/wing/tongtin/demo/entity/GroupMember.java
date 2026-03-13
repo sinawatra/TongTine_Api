@@ -19,7 +19,7 @@ public class GroupMember {
     private UserEntity user;
 
     @ManyToOne
-    private TontineGroup group;
+    private TontineGroupEntity group;
 
     private Integer payoutOrder;
 }

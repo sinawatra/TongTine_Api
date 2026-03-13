@@ -21,7 +21,7 @@ public class ContributionEntity {
     private UserEntity user;
 
     @ManyToOne
-    private TontineGroup group;
+    private TontineGroupEntity group;
 
     private BigDecimal amount;
 

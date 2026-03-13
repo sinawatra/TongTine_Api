@@ -1,5 +1,6 @@
 package wing.tongtin.demo.controller;
 
+import wing.tongtin.demo.entity.TontineGroupEntity;
 import  wing.tongtin.demo.request.CreateGroupRequest;
 import  wing.tongtin.demo.response.ApiResponse;
 import  wing.tongtin.demo.service.TontineService;
@@ -32,6 +33,16 @@ public class TontineGroupController {
                 .data(tontineService.getAllGroupListing())
                 .build();
 
+    }
+
+
+    @GetMapping("/{id}")
+    public ApiResponse<?> getGroupInfoById(@PathVariable String id) {
+        TontineGroupEntity tontineGroup = tontineService.getGroupInFoById(id);
+        return ApiResponse.builder()
+                .success(true)
+                .message("Success").data(tontineGroup)
+                .build();
     }
 
 }

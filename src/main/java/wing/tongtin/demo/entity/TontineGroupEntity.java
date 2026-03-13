@@ -11,10 +11,11 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
+@Table(name = "TontineGroup")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TontineGroup {
+public class TontineGroupEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
