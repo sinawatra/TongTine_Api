@@ -1,11 +1,12 @@
 package wing.tongtin.demo.controller;
 
 import wing.tongtin.demo.entity.TontineGroupEntity;
-import  wing.tongtin.demo.request.CreateGroupRequest;
-import  wing.tongtin.demo.response.ApiResponse;
-import  wing.tongtin.demo.service.TontineService;
+import wing.tongtin.demo.request.CreateGroupRequest;
+import wing.tongtin.demo.response.ApiResponse;
+import wing.tongtin.demo.service.TontineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/api/groups")
 @RequiredArgsConstructor
@@ -42,6 +43,24 @@ public class TontineGroupController {
         return ApiResponse.builder()
                 .success(true)
                 .message("Success").data(tontineGroup)
+                .build();
+    }
+
+    @PostMapping("/{id}/join")
+    public ApiResponse<?> joinGroupByID(@PathVariable String id) {
+        return ApiResponse.builder()
+                .success(true)
+                .message("Joined group successfully")
+                .data(tontineService.joinGroupById(id))
+                .build();
+    }
+
+    @GetMapping("/{groupId}/members")
+    public ApiResponse<?> getGroupMembers(@PathVariable String groupId) {
+        return ApiResponse.builder()
+                .success(true)
+                .message("Success")
+                .data(tontineService.getGroupMembers(groupId))
                 .build();
     }
 

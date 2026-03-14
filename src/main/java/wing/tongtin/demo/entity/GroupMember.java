@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "group_member")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,9 +17,11 @@ public class GroupMember {
     private String id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 
     @ManyToOne
+    @JoinColumn(name = "group_id", referencedColumnName = "id")
     private TontineGroupEntity group;
 
     private Integer payoutOrder;
