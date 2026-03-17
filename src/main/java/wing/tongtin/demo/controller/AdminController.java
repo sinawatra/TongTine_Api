@@ -2,11 +2,14 @@ package wing.tongtin.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import wing.tongtin.demo.repository.ContributionRepository;
 import wing.tongtin.demo.repository.TontineGroupRepository;
 import wing.tongtin.demo.repository.UserRepository;
+import wing.tongtin.demo.request.KycReviewRequest;
 import wing.tongtin.demo.response.ApiResponse;
+import wing.tongtin.demo.service.KycService;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,6 +20,7 @@ public class AdminController {
     private final TontineGroupRepository groupRepository;
     private final ContributionRepository contributionRepository;
     private final UserRepository userRepository;
+    private final KycService kycService;
 
     @GetMapping("/groups")
     public ApiResponse<?> getAllGroups() {
@@ -42,6 +46,45 @@ public class AdminController {
                 .success(true)
                 .message("Success")
                 .data(userRepository.findAll())
+                .build();
+    }
+
+    @GetMapping("/kyc")
+    public ApiResponse<?> getAllKycDocuments() {
+        return ApiResponse.builder()
+                .success(true)
+                .message("Success")
+                .data(kycService.getAllKycDocuments())
+                .build();
+    }
+
+    @GetMapping("/kyc/pending")
+    public ApiResponse<?> getPendingKycDocuments() {
+        return ApiResponse.builder()
+                .success(true)
+                .message("Success")
+                .data(kycService.getPendingKycDocuments())
+                .build();
+    }
+
+    @GetMapping("/kyc/user/{userId}")
+    public ApiResponse<?> getUserKycDocuments(@PathVariable String userId) {
+        return ApiResponse.builder()
+                .success(true)
+                .message("Success")
+                .data(kycService.getUserKycDocuments(userId))
+                .build();
+    }
+
+    @PutMapping("/kyc/{kycId}/review")
+    public ApiResponse<?> reviewKycDocument(
+            @PathVariable String kycId,
+            @AuthenticationPrincipal String adminId,
+            @RequestBody KycReviewRequest request) {
+        return ApiResponse.builder()
+                .success(true)
+                .message("KYC document reviewed successfully")
+                .data(kycService.reviewKycDocument(kycId, adminId, request))
                 .build();
     }
 }
