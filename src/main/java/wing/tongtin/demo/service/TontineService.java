@@ -29,6 +29,7 @@ public class TontineService {
                 .contributionAmount(request.getContributionAmount())
                 .totalMembers(request.getTotalMembers())
                 .status(GroupStatus.PENDING)
+                .imageUrl(request.getImageUrl())
                 .build();
 
         return groupRepository.save(group);

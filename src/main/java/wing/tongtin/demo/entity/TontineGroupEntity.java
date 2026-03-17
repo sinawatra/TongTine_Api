@@ -32,4 +32,6 @@ public class TontineGroupEntity {
     @Enumerated(EnumType.STRING)
     private GroupStatus status;
 
+    private String imageUrl;
+
 }

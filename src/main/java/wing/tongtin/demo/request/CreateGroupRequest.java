@@ -10,5 +10,6 @@ public class CreateGroupRequest {
     private String groupName;
     private BigDecimal contributionAmount;
     private Integer totalMembers;
+    private String imageUrl;
 
 }

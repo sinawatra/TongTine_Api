@@ -25,4 +25,6 @@ public class GroupMember {
     private TontineGroupEntity group;
 
     private Integer payoutOrder;
+
+    private String imageUrl;
 }
