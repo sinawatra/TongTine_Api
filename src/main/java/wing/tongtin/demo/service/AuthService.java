@@ -31,6 +31,6 @@ public class AuthService {
         }
 
         String token = jwtUtils.generateJwtToken(user.getId());
-        return new JwtResponse(token, "Bearer");
+        return new JwtResponse(user.getId(), token, "Bearer");
     }
 }
