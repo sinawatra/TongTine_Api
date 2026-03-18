@@ -23,6 +23,7 @@ public class KycService {
 
     private final KycRepository kycRepository;
     private final UserRepository userRepository;
+    private final CloudinaryService cloudinaryService;
 
     @Transactional
     public KycResponse submitKycDocument(String userId, MultipartFile file, KycDocumentType type) {
@@ -34,8 +35,8 @@ public class KycService {
             throw new RuntimeException("KYC document of type " + type + " already submitted");
         }
 
-        // TODO: Upload file to storage service and get URL
-        String fileUrl = file.getOriginalFilename();
+        // Upload file to Cloudinary
+        String fileUrl = cloudinaryService.uploadFile(file, "kyc/" + userId);
 
         KycEntity kyc = KycEntity.builder()
                 .file(fileUrl)
