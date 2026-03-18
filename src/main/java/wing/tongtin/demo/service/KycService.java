@@ -3,13 +3,13 @@ package wing.tongtin.demo.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import wing.tongtin.demo.entity.KycEntity;
 import wing.tongtin.demo.entity.UserEntity;
 import wing.tongtin.demo.enumeration.KycDocumentType;
 import wing.tongtin.demo.enumeration.KycStatus;
 import wing.tongtin.demo.repository.KycRepository;
 import wing.tongtin.demo.repository.UserRepository;
-import wing.tongtin.demo.request.KycRequest;
 import wing.tongtin.demo.request.KycReviewRequest;
 import wing.tongtin.demo.response.KycResponse;
 
@@ -25,18 +25,21 @@ public class KycService {
     private final UserRepository userRepository;
 
     @Transactional
-    public KycResponse submitKycDocument(String userId, KycRequest request) {
+    public KycResponse submitKycDocument(String userId, MultipartFile file, KycDocumentType type) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Check if document type already exists for this user
-        if (kycRepository.existsByUserAndType(user, request.getType())) {
-            throw new RuntimeException("KYC document of type " + request.getType() + " already submitted");
+        if (kycRepository.existsByUserAndType(user, type)) {
+            throw new RuntimeException("KYC document of type " + type + " already submitted");
         }
 
+        // TODO: Upload file to storage service and get URL
+        String fileUrl = file.getOriginalFilename();
+
         KycEntity kyc = KycEntity.builder()
-                .file(request.getFile())
-                .type(request.getType())
+                .file(fileUrl)
+                .type(type)
                 .user(user)
                 .status(KycStatus.PENDING)
                 .build();

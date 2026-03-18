@@ -1,9 +1,11 @@
 package wing.tongtin.demo.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import wing.tongtin.demo.request.KycRequest;
+import org.springframework.web.multipart.MultipartFile;
+import wing.tongtin.demo.enumeration.KycDocumentType;
 import wing.tongtin.demo.response.ApiResponse;
 import wing.tongtin.demo.service.KycService;
 
@@ -14,14 +16,15 @@ public class KycController {
 
     private final KycService kycService;
 
-    @PostMapping("/submit")
+    @PostMapping(value = "/submit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<?> submitKycDocument(
             @AuthenticationPrincipal String userId,
-            @RequestBody KycRequest request) {
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("type") KycDocumentType type) {
         return ApiResponse.builder()
                 .success(true)
                 .message("KYC document submitted successfully")
-                .data(kycService.submitKycDocument(userId, request))
+                .data(kycService.submitKycDocument(userId, file, type))
                 .build();
     }
 
